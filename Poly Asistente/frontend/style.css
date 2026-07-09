@@ -1,0 +1,198 @@
+/* =========================================
+   1. FONDO INMERSIVO Y LUCES AMBIENTALES
+   ========================================= */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #020617; /* Modo oscuro profundo */
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    overflow: hidden; /* Evita scroll por las luces */
+    position: relative;
+}
+
+/* Esferas de luz desenfocadas para dar profundidad 3D al fondo */
+.ambient-light-1, .ambient-light-2 {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    animation: flotarAmbiente 25s infinite alternate ease-in-out;
+}
+.ambient-light-1 {
+    width: 60vw; height: 60vh;
+    background: rgba(230, 57, 70, 0.15); /* Rojo Poly */
+    top: -10%; left: -10%;
+}
+.ambient-light-2 {
+    width: 50vw; height: 50vh;
+    background: rgba(14, 165, 233, 0.15); /* Azul Tech */
+    bottom: -10%; right: -10%;
+    animation-delay: -5s;
+}
+
+@keyframes flotarAmbiente {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10vw, 10vh) scale(1.1); }
+}
+
+/* =========================================
+   2. CONTENEDOR GLASSMORPHISM (Efecto Cristal)
+   ========================================= */
+.interfaz-contenedor {
+    text-align: center;
+    background: rgba(30, 41, 59, 0.4); /* Cristal oscuro semitransparente */
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    backdrop-filter: blur(20px); /* Efecto esmerilado */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde luminoso */
+    color: #f8fafc;
+}
+
+.bot-container {
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* =========================================
+   3. ANIMACIONES ORGÁNICAS Y FÍSICA
+   ========================================= */
+#robot-completo {
+    animation: flotar 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    transform-origin: center;
+}
+@keyframes flotar {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+#sombra-suelo {
+    animation: sombraFlote 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    transform-origin: center;
+}
+@keyframes sombraFlote {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(0.8); opacity: 0.15; }
+}
+
+#articulacion-cabeza {
+    animation: curiosear 7s ease-in-out infinite alternate;
+    transform-origin: 200px 210px; /* Cuello */
+}
+@keyframes curiosear {
+    0% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg) translateY(2px); }
+    100% { transform: rotate(-1deg); }
+}
+
+/* Manos de energía con animación asíncrona */
+#mano-izq {
+    animation: flotarMano 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    transform-origin: 80px 230px;
+    animation-delay: 0.2s;
+}
+#mano-der {
+    animation: flotarMano 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate-reverse;
+    transform-origin: 320px 230px;
+    animation-delay: 0.5s;
+}
+@keyframes flotarMano {
+    0% { transform: translateY(5px); }
+    100% { transform: translateY(-12px); }
+}
+
+#ojos {
+    animation: parpadear 6s infinite;
+    transform-origin: 200px 135px;
+    transition: transform 0.1s ease-out; /* Suaviza el seguimiento del ratón */
+}
+@keyframes parpadear {
+    0%, 95%, 100% { transform: scaleY(1); opacity: 1; }
+    97% { transform: scaleY(0.05); opacity: 0.8; }
+}
+
+/* =========================================
+   4. ESTADOS DE INTERACCIÓN (Hablar/Escuchar)
+   ========================================= */
+.escuchando #pecho-logo {
+    animation: latidoPecho 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite alternate;
+    transform-origin: 200px 245px;
+}
+@keyframes latidoPecho {
+    0% { transform: scale(1); filter: drop-shadow(0 0 5px #e63946); }
+    100% { transform: scale(1.4); filter: drop-shadow(0 0 25px #ff4d5a); }
+}
+
+.hablando #boca {
+    /* La animación de la boca está ahora controlada al 100% por tu JavaScript,
+       por lo que aquí solo definimos la transición suave de la escala */
+    transition: transform 0.05s ease;
+}
+
+.hablando #mano-der {
+    animation: gestoHablar 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
+}
+@keyframes gestoHablar {
+    0% { transform: translateY(-5px); }
+    100% { transform: translateY(-20px); }
+}
+
+/* =========================================
+   5. CONTROLES Y TEXTOS PREMIUM
+   ========================================= */
+.controles { margin-top: 20px; }
+
+.btn-voz {
+    background: linear-gradient(135deg, #ff4d5a 0%, #e63946 100%);
+    color: white;
+    border: none;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Rebote premium */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-voz:hover {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 15px 30px rgba(230, 57, 70, 0.5);
+}
+
+.btn-voz.activo {
+    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
+    animation: pulsoBoton 1.5s infinite alternate;
+}
+@keyframes pulsoBoton {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); box-shadow: 0 0 40px rgba(14, 165, 233, 0.8); }
+}
+
+#estado {
+    margin-top: 20px;
+    color: #f1f5f9; /* Blanco suave */
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+#transcripcion {
+    margin-top: 10px;
+    color: #94a3b8; /* Gris azulado */
+    font-style: italic;
+    font-size: 14px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
