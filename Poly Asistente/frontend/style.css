@@ -196,3 +196,206 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* =========================================
+   6. NUEVO BANNER PROMOCIONAL (Píldora Elegante)
+   ========================================= */
+.promo-pill {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 77, 90, 0.3);
+    border-radius: 40px;
+    padding: 8px 25px 8px 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.promo-pill:hover {
+    border-color: rgba(255, 77, 90, 0.8);
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 15px 40px rgba(255, 77, 90, 0.2);
+}
+
+.promo-badge {
+    background: linear-gradient(135deg, #ff4d5a 0%, #9f1239 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 10px rgba(255, 77, 90, 0.5);
+    animation: latidoPulso 2s infinite alternate ease-in-out;
+}
+
+.promo-text {
+    color: #cbd5e1;
+    font-size: 18px; /* Aumentado para mayor legibilidad */
+    line-height: 1.4;
+}
+
+.promo-text strong {
+    color: #ff4d5a;
+    font-weight: 700;
+    font-size: 20px; /* El precio resalta aún más */
+}
+
+@keyframes latidoPulso {
+    0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 77, 90, 0.4); }
+    100% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 77, 90, 0.8); }
+}
+
+/* =========================================
+   7. PANELES LATERALES HOLOGRÁFICOS (HUD)
+   ========================================= */
+.hud-panel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 260px;
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.2) 0%, rgba(15, 23, 42, 0.4) 100%);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 25px;
+    color: #94a3b8;
+    z-index: 10;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    opacity: 0.6; /* Semitransparente para no distraer */
+    transition: all 0.4s ease;
+}
+
+/* Se iluminan al pasar el ratón */
+.hud-panel:hover {
+    opacity: 1;
+    border-color: rgba(255, 77, 90, 0.2);
+    box-shadow: 0 20px 50px rgba(255, 77, 90, 0.1);
+}
+
+.panel-izq { left: 4%; }
+.panel-der { right: 4%; }
+
+.hud-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #f8fafc;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.hud-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ff4d5a;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ff4d5a;
+}
+
+.hud-dot.pulsing {
+    animation: titilarDot 1s infinite alternate;
+}
+
+@keyframes titilarDot {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* Estilos de Lista Izquierda */
+.hud-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.hud-list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.2s;
+}
+
+.hud-list li:hover { color: #f8fafc; cursor: default; }
+
+.list-dot {
+    width: 4px; height: 4px;
+    background-color: #38bdf8;
+    border-radius: 50%;
+}
+
+.hud-footer {
+    margin-top: 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    text-align: right;
+}
+
+/* Estilos de Estadísticas Derecha */
+.hud-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-value {
+    color: #f8fafc;
+    font-family: monospace;
+}
+.stat-value.green { color: #10b981; text-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+
+/* Animación de barras de audio */
+.audio-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px;
+    height: 30px;
+}
+
+.audio-bars .bar {
+    width: 6px;
+    background-color: #ff4d5a;
+    border-radius: 3px;
+    animation: ecualizador 1.5s infinite ease-in-out;
+}
+
+.audio-bars .bar:nth-child(1) { animation-delay: 0.1s; }
+.audio-bars .bar:nth-child(2) { animation-delay: 0.4s; }
+.audio-bars .bar:nth-child(3) { animation-delay: 0.2s; }
+.audio-bars .bar:nth-child(4) { animation-delay: 0.5s; }
+.audio-bars .bar:nth-child(5) { animation-delay: 0.3s; }
+
+@keyframes ecualizador {
+    0%, 100% { height: 5px; }
+    50% { height: 25px; }
+}
+
+/* Ocultar paneles en pantallas pequeñas (celulares) para no tapar al robot */
+@media (max-width: 1100px) {
+    .hud-panel { display: none; }
+    .promo-pill { width: 90%; flex-direction: column; text-align: center; padding: 15px; }
+}
