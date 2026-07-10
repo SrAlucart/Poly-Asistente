@@ -197,3 +197,40 @@ function inyectarVozEnCola(textoFrase) {
 
     synth.speak(utterance);
 }
+
+
+// =========================================
+// MOTOR FÍSICO 2.5D (PARALLAX REACTIVO)
+// =========================================
+const cabeza = document.getElementById('articulacion-cabeza');
+const brazoIzq = document.getElementById('brazo-izq');
+const brazoDer = document.getElementById('brazo-der');
+const torso = document.getElementById('torso');
+const ojos = document.getElementById('ojos');
+
+document.addEventListener('mousemove', (e) => {
+    // Calculamos la posición del ratón normalizada de -1 a 1
+    const x = (e.clientX / window.innerWidth) * 2 - 1;
+    const y = (e.clientY / window.innerHeight) * 2 - 1;
+
+    // Aplicamos movimiento a diferentes velocidades para crear ilusión de profundidad (3D)
+    if(cabeza) cabeza.style.transform = `translate(${x * 15}px, ${y * 10}px) rotate(${x * 5}deg)`;
+    if(ojos) ojos.style.transform = `translate(${x * 25}px, ${y * 15}px)`; // Los ojos se mueven más rápido
+    if(torso) torso.style.transform = `translate(${x * 5}px, ${y * 5}px)`;
+    if(brazoIzq) brazoIzq.style.transform = `translate(${x * 20}px, ${y * 15}px) rotate(${-25 + (x * -10)}deg)`;
+    if(brazoDer) brazoDer.style.transform = `translate(${x * -10}px, ${y * 15}px) rotate(${25 + (x * 10)}deg)`;
+});
+
+// Suavizado de movimiento al salir de la pantalla
+document.addEventListener('mouseleave', () => {
+    const elementos = [cabeza, ojos, torso, brazoIzq, brazoDer];
+    elementos.forEach(el => {
+        if(el) {
+            el.style.transition = 'transform 0.5s ease-out';
+            el.style.transform = 'translate(0px, 0px) rotate(0deg)';
+        }
+    });
+    setTimeout(() => {
+        elementos.forEach(el => { if(el) el.style.transition = 'none'; });
+    }, 500);
+});
