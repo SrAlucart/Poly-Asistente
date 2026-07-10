@@ -7,10 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   <div class="promo-pill">
-        <div class="promo-glow"></div>
-        <span class="promo-badge">⚡ OFERTA</span>
-        <span class="promo-text">Si te inscribes hoy con un valor de <strong>$75.000 COP</strong> obtendrás un beneficio y un descuento con nosotros. 
+    <div class="ambient-light-1"></div>
+    <div class="ambient-light-2"></div>
+
+    <div class="top-bar">
+        <div class="marca-header">
+            <img src="assets/logo.jpg" alt="Logo Politécnico" class="marca-logo">
+            <div class="marca-texto">
+                <h1>Politécnico Superior Cafetero</h1>
+                <span>Innovación y Excelencia</span>
+            </div>
+        </div>
+
+        <div class="promo-pill">
+            <div class="promo-glow"></div>
+            <span class="promo-badge">⚡ OFERTA</span>
+            <span class="promo-text">Si te inscribes hoy con un valor de <strong>$75.000 COP</strong> obtendrás un beneficio y un descuento con nosotros.</span>
+        </div>
     </div>
 
     <div class="hud-panel panel-izq">
@@ -27,30 +40,36 @@
             <li><span class="list-dot"></span>Sistemas Informáticos</li>
             <li><span class="list-dot"></span>Seguridad Ocupacional</li>
         </ul>
-        <div class="hud-footer">Politécnico Superior</div>
+        <div class="hud-footer">Politécnico Superior Cafetero</div>
     </div>
 
     <div class="hud-panel panel-der">
         <div class="hud-header">
             <div class="hud-dot pulsing"></div>
-            <span>MOTOR NEURONAL</span>
+            <span>CONECTA CON NOSOTROS</span>
         </div>
-        <div class="hud-stats">
-            <div class="stat-row"><span>Conexión</span> <span class="stat-value green">Estable</span></div>
-            <div class="stat-row"><span>Latencia</span> <span class="stat-value">12ms</span></div>
-            <div class="stat-row"><span>Voz IA</span> <span class="stat-value">Activa</span></div>
-        </div>
-        <div class="audio-bars">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        
+        <div class="qr-container">
+            <div class="qr-item principal" onclick="abrirModalQR('Sitio Web Oficial', 'assets/pagina.png')">
+                <img src="assets/pagina.png" alt="Sitio Web QR">
+                <span>Sitio Web Oficial</span>
+            </div>
+            
+            <div class="qr-row">
+                <div class="qr-item" onclick="abrirModalQR('Facebook Oficial', 'assets/facebook.png')">
+                    <img src="assets/facebook.png" alt="Facebook QR">
+                    <span>Facebook</span>
+                </div>
+                <div class="qr-item" onclick="abrirModalQR('Instagram Oficial', 'assets/instagram.png')">
+                    <img src="assets/instagram.png" alt="Instagram QR">
+                    <span>Instagram</span>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="ambient-light-1"></div>
-    <div class="ambient-light-2"></div>
-
+    
     <div class="interfaz-contenedor">
         <div class="bot-container" id="polybot-contenedor">
-            
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" id="polybot-svg" width="100%" height="100%">
                 <defs>
                     <filter id="resplandor-neon" x="-50%" y="-50%" width="200%" height="200%">
@@ -70,7 +89,6 @@
                 <ellipse id="sombra-suelo" cx="200" cy="360" rx="70" ry="10" fill="#000000" opacity="0.3" filter="blur(6px)" />
 
                 <g id="robot-completo">
-                    
                     <ellipse cx="200" cy="320" rx="60" ry="15" fill="none" stroke="#e63946" stroke-width="2" opacity="0.5" filter="url(#resplandor-neon)" />
 
                     <g id="mano-izq">
@@ -107,13 +125,27 @@
                     </g>
                 </g>
             </svg>
-
         </div>
-
+        
         <div class="controles">
             <button id="btn-hablar" class="btn-voz">🎙️</button>
             <div id="estado">Sistema en espera...</div>
-            <div id="transcripcion">Inicia la comunicación por voz.</div>
+            
+            <div id="subtitulos-contenedor" class="subtitulos-caja">
+                <span class="icono-accesibilidad">💬</span> 
+                <span id="texto-subtitulo">Poly Bot dice: </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="qr-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModalQR()">✖</span>
+            <h2 id="modal-titulo">Escanear QR</h2>
+            <div class="modal-qr-frame">
+                <img id="modal-img" src="" alt="Código QR Grande">
+            </div>
+            <p>Abre la cámara de tu celular y apunta hacia el código.</p>
         </div>
     </div>
 

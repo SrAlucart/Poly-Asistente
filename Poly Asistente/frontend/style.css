@@ -1,19 +1,18 @@
 /* =========================================
-   1. FONDO INMERSIVO Y LUCES AMBIENTALES
+   1. CONFIGURACIÓN BASE Y LUCES AMBIENTALES
    ========================================= */
 body {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #020617; /* Modo oscuro profundo */
+    background-color: #020617; 
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
-    overflow: hidden; /* Evita scroll por las luces */
+    overflow: hidden; 
     position: relative;
 }
 
-/* Esferas de luz desenfocadas para dar profundidad 3D al fondo */
 .ambient-light-1, .ambient-light-2 {
     position: absolute;
     border-radius: 50%;
@@ -23,12 +22,12 @@ body {
 }
 .ambient-light-1 {
     width: 60vw; height: 60vh;
-    background: rgba(230, 57, 70, 0.15); /* Rojo Poly */
+    background: rgba(230, 57, 70, 0.15); 
     top: -10%; left: -10%;
 }
 .ambient-light-2 {
     width: 50vw; height: 50vh;
-    background: rgba(14, 165, 233, 0.15); /* Azul Tech */
+    background: rgba(14, 165, 233, 0.15); 
     bottom: -10%; right: -10%;
     animation-delay: -5s;
 }
@@ -39,216 +38,55 @@ body {
 }
 
 /* =========================================
-   2. CONTENEDOR GLASSMORPHISM (Efecto Cristal)
+   2. BARRA SUPERIOR (LOGO Y PROMOCIÓN)
    ========================================= */
-.interfaz-contenedor {
-    text-align: center;
-    background: rgba(30, 41, 59, 0.4); /* Cristal oscuro semitransparente */
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-    backdrop-filter: blur(20px); /* Efecto esmerilado */
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde luminoso */
-    color: #f8fafc;
-}
-
-.bot-container {
-    width: 320px;
-    height: 320px;
-    margin: 0 auto;
-    position: relative;
-}
-
-/* =========================================
-   3. ANIMACIONES ORGÁNICAS Y FÍSICA
-   ========================================= */
-#robot-completo {
-    animation: flotar 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-    transform-origin: center;
-}
-@keyframes flotar {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-}
-
-#sombra-suelo {
-    animation: sombraFlote 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-    transform-origin: center;
-}
-@keyframes sombraFlote {
-    0%, 100% { transform: scale(1); opacity: 0.3; }
-    50% { transform: scale(0.8); opacity: 0.15; }
-}
-
-#articulacion-cabeza {
-    animation: curiosear 7s ease-in-out infinite alternate;
-    transform-origin: 200px 210px; /* Cuello */
-}
-@keyframes curiosear {
-    0% { transform: rotate(-2deg); }
-    50% { transform: rotate(2deg) translateY(2px); }
-    100% { transform: rotate(-1deg); }
-}
-
-/* Manos de energía con animación asíncrona */
-#mano-izq {
-    animation: flotarMano 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
-    transform-origin: 80px 230px;
-    animation-delay: 0.2s;
-}
-#mano-der {
-    animation: flotarMano 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate-reverse;
-    transform-origin: 320px 230px;
-    animation-delay: 0.5s;
-}
-@keyframes flotarMano {
-    0% { transform: translateY(5px); }
-    100% { transform: translateY(-12px); }
-}
-
-#ojos {
-    animation: parpadear 6s infinite;
-    transform-origin: 200px 135px;
-    transition: transform 0.1s ease-out; /* Suaviza el seguimiento del ratón */
-}
-@keyframes parpadear {
-    0%, 95%, 100% { transform: scaleY(1); opacity: 1; }
-    97% { transform: scaleY(0.05); opacity: 0.8; }
-}
-
-/* =========================================
-   4. ESTADOS DE INTERACCIÓN (Hablar/Escuchar)
-   ========================================= */
-.escuchando #pecho-logo {
-    animation: latidoPecho 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite alternate;
-    transform-origin: 200px 245px;
-}
-@keyframes latidoPecho {
-    0% { transform: scale(1); filter: drop-shadow(0 0 5px #e63946); }
-    100% { transform: scale(1.4); filter: drop-shadow(0 0 25px #ff4d5a); }
-}
-
-.hablando #boca {
-    /* La animación de la boca está ahora controlada al 100% por tu JavaScript,
-       por lo que aquí solo definimos la transición suave de la escala */
-    transition: transform 0.05s ease;
-}
-
-.hablando #mano-der {
-    animation: gestoHablar 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate;
-}
-@keyframes gestoHablar {
-    0% { transform: translateY(-5px); }
-    100% { transform: translateY(-20px); }
-}
-
-/* =========================================
-   5. CONTROLES Y TEXTOS PREMIUM
-   ========================================= */
-.controles { margin-top: 20px; }
-
-.btn-voz {
-    background: linear-gradient(135deg, #ff4d5a 0%, #e63946 100%);
-    color: white;
-    border: none;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    font-size: 26px;
-    cursor: pointer;
-    box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Rebote premium */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-voz:hover {
-    transform: scale(1.1) translateY(-2px);
-    box-shadow: 0 15px 30px rgba(230, 57, 70, 0.5);
-}
-
-.btn-voz.activo {
-    background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
-    box-shadow: 0 0 30px rgba(14, 165, 233, 0.5);
-    animation: pulsoBoton 1.5s infinite alternate;
-}
-@keyframes pulsoBoton {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.08); box-shadow: 0 0 40px rgba(14, 165, 233, 0.8); }
-}
-
-#estado {
-    margin-top: 20px;
-    color: #f1f5f9; /* Blanco suave */
-    font-weight: 600;
-    font-size: 16px;
-    letter-spacing: 0.5px;
-}
-
-#transcripcion {
-    margin-top: 10px;
-    color: #94a3b8; /* Gris azulado */
-    font-style: italic;
-    font-size: 14px;
-    max-width: 280px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* =========================================
-   6. NUEVO BANNER PROMOCIONAL (Píldora Elegante)
-   ========================================= */
-.promo-pill {
+.top-bar {
     position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 4%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+.marca-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(15, 23, 42, 0.4);
+    padding: 12px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+.marca-header:hover { background: rgba(15, 23, 42, 0.7); border-color: rgba(255, 77, 90, 0.3); }
+.marca-logo { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; border: 2px solid #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+.marca-texto h1 { margin: 0; font-size: 16px; color: #f8fafc; font-weight: 800; letter-spacing: 0.5px; }
+.marca-texto span { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+.promo-pill {
     background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 77, 90, 0.3);
     border-radius: 40px;
     padding: 8px 25px 8px 8px;
     display: flex;
     align-items: center;
     gap: 15px;
-    z-index: 100;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
-    cursor: pointer;
+    max-width: 600px;
 }
-
-.promo-pill:hover {
-    border-color: rgba(255, 77, 90, 0.8);
-    transform: translateX(-50%) translateY(-3px);
-    box-shadow: 0 15px 40px rgba(255, 77, 90, 0.2);
-}
-
-.promo-badge {
-    background: linear-gradient(135deg, #ff4d5a 0%, #9f1239 100%);
-    color: white;
-    padding: 6px 14px;
-    border-radius: 30px;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 10px rgba(255, 77, 90, 0.5);
-    animation: latidoPulso 2s infinite alternate ease-in-out;
-}
-
-.promo-text {
-    color: #cbd5e1;
-    font-size: 18px; /* Aumentado para mayor legibilidad */
-    line-height: 1.4;
-}
-
-.promo-text strong {
-    color: #ff4d5a;
-    font-weight: 700;
-    font-size: 20px; /* El precio resalta aún más */
-}
+.promo-pill:hover { border-color: rgba(255, 77, 90, 0.8); transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255, 77, 90, 0.2); }
+.promo-badge { background: linear-gradient(135deg, #ff4d5a 0%, #9f1239 100%); color: white; padding: 6px 14px; border-radius: 30px; font-weight: 800; font-size: 13px; animation: latidoPulso 2s infinite alternate ease-in-out; white-space: nowrap; }
+.promo-text { color: #cbd5e1; font-size: 16px; line-height: 1.4; }
+.promo-text strong { color: #ff4d5a; font-weight: 700; font-size: 18px; }
 
 @keyframes latidoPulso {
     0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 77, 90, 0.4); }
@@ -256,11 +94,11 @@ body {
 }
 
 /* =========================================
-   7. PANELES LATERALES HOLOGRÁFICOS (HUD)
+   3. PANELES LATERALES HUD Y BOTONES QR
    ========================================= */
 .hud-panel {
     position: absolute;
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
     width: 260px;
     background: linear-gradient(180deg, rgba(30, 41, 59, 0.2) 0%, rgba(15, 23, 42, 0.4) 100%);
@@ -271,131 +109,128 @@ body {
     color: #94a3b8;
     z-index: 10;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    opacity: 0.6; /* Semitransparente para no distraer */
+    opacity: 0.6; 
     transition: all 0.4s ease;
 }
-
-/* Se iluminan al pasar el ratón */
-.hud-panel:hover {
-    opacity: 1;
-    border-color: rgba(255, 77, 90, 0.2);
-    box-shadow: 0 20px 50px rgba(255, 77, 90, 0.1);
-}
-
+.hud-panel:hover { opacity: 1; border-color: rgba(255, 77, 90, 0.2); box-shadow: 0 20px 50px rgba(255, 77, 90, 0.1); }
 .panel-izq { left: 4%; }
 .panel-der { right: 4%; }
 
-.hud-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: #f8fafc;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 10px;
-}
+.hud-header { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #f8fafc; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
+.hud-dot { width: 8px; height: 8px; background-color: #ff4d5a; border-radius: 50%; box-shadow: 0 0 8px #ff4d5a; }
+.hud-dot.pulsing { animation: titilarDot 1s infinite alternate; }
+@keyframes titilarDot { 0% { opacity: 0.3; } 100% { opacity: 1; } }
 
-.hud-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #ff4d5a;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #ff4d5a;
-}
-
-.hud-dot.pulsing {
-    animation: titilarDot 1s infinite alternate;
-}
-
-@keyframes titilarDot {
-    0% { opacity: 0.3; }
-    100% { opacity: 1; }
-}
-
-/* Estilos de Lista Izquierda */
-.hud-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-}
-
-.hud-list li {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: color 0.2s;
-}
-
+.hud-list { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+.hud-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; transition: color 0.2s; }
 .hud-list li:hover { color: #f8fafc; cursor: default; }
+.list-dot { width: 4px; height: 4px; background-color: #38bdf8; border-radius: 50%; }
+.hud-footer { margin-top: 20px; font-size: 11px; text-transform: uppercase; opacity: 0.5; text-align: right; }
 
-.list-dot {
-    width: 4px; height: 4px;
-    background-color: #38bdf8;
-    border-radius: 50%;
+/* Menú de QR Clickables */
+.qr-container { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 10px; }
+.qr-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.qr-item img { background-color: #ffffff; padding: 6px; border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.1); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s; cursor: pointer; }
+.qr-item img:hover { transform: scale(1.1); border-color: #ff4d5a; box-shadow: 0 0 15px rgba(255, 77, 90, 0.5); }
+.qr-item span { font-size: 12px; color: #cbd5e1; font-weight: 600; letter-spacing: 0.5px; }
+.qr-item.principal img { width: 100px; height: 100px; }
+.qr-row { display: flex; gap: 20px; justify-content: center; width: 100%; }
+.qr-row .qr-item img { width: 70px; height: 70px; border-radius: 10px; }
+
+/* =========================================
+   4. MODAL POP-UP (Para escanear QR)
+   ========================================= */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease;
 }
+.modal-overlay.activo { opacity: 1; visibility: visible; }
 
-.hud-footer {
-    margin-top: 20px;
-    font-size: 11px;
-    text-transform: uppercase;
-    opacity: 0.5;
-    text-align: right;
+.modal-content {
+    background: #0f172a; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 24px;
+    padding: 35px; text-align: center; width: 340px; position: relative;
+    transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
+.modal-overlay.activo .modal-content { transform: translateY(0); }
 
-/* Estilos de Estadísticas Derecha */
-.hud-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
+.close-modal { position: absolute; top: 15px; right: 20px; font-size: 22px; color: #94a3b8; cursor: pointer; transition: color 0.2s; }
+.close-modal:hover { color: #ff4d5a; }
 
-.stat-row {
-    display: flex;
-    justify-content: space-between;
-}
+.modal-content h2 { color: #f8fafc; font-size: 22px; margin-top: 0; margin-bottom: 20px; }
+.modal-qr-frame { background: white; padding: 20px; border-radius: 16px; display: inline-block; margin-bottom: 20px; }
+.modal-qr-frame img { width: 220px; height: 220px; object-fit: contain; }
+.modal-content p { color: #94a3b8; font-size: 14px; margin: 0; }
 
-.stat-value {
+/* =========================================
+   5. CONTENEDOR CENTRAL DEL ROBOT (Cristal)
+   ========================================= */
+.interfaz-contenedor {
+    text-align: center;
+    background: rgba(30, 41, 59, 0.4); 
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    backdrop-filter: blur(20px); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
     color: #f8fafc;
-    font-family: monospace;
-}
-.stat-value.green { color: #10b981; text-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
-
-/* Animación de barras de audio */
-.audio-bars {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 4px;
-    height: 30px;
+    z-index: 50;
+    margin-top: 40px; /* Separación de la barra superior */
 }
 
-.audio-bars .bar {
-    width: 6px;
-    background-color: #ff4d5a;
-    border-radius: 3px;
-    animation: ecualizador 1.5s infinite ease-in-out;
+.bot-container { width: 320px; height: 320px; margin: 0 auto; position: relative; }
+
+/* =========================================
+   6. FÍSICA Y ANIMACIONES DEL ROBOT
+   ========================================= */
+#robot-completo { animation: flotar 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite; transform-origin: center; }
+@keyframes flotar { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+
+#sombra-suelo { animation: sombraFlote 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite; transform-origin: center; }
+@keyframes sombraFlote { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(0.8); opacity: 0.15; } }
+
+#articulacion-cabeza { animation: curiosear 7s ease-in-out infinite alternate; transform-origin: 200px 210px; }
+@keyframes curiosear { 0% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(2px); } 100% { transform: rotate(-1deg); } }
+
+#mano-izq { animation: flotarMano 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate; transform-origin: 80px 230px; animation-delay: 0.2s; }
+#mano-der { animation: flotarMano 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate-reverse; transform-origin: 320px 230px; animation-delay: 0.5s; }
+@keyframes flotarMano { 0% { transform: translateY(5px); } 100% { transform: translateY(-12px); } }
+
+#ojos { animation: parpadear 6s infinite; transform-origin: 200px 135px; transition: transform 0.1s ease-out; }
+@keyframes parpadear { 0%, 95%, 100% { transform: scaleY(1); opacity: 1; } 97% { transform: scaleY(0.05); opacity: 0.8; } }
+
+.escuchando #pecho-logo { animation: latidoPecho 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) infinite alternate; transform-origin: 200px 245px; }
+@keyframes latidoPecho { 0% { transform: scale(1); filter: drop-shadow(0 0 5px #e63946); } 100% { transform: scale(1.4); filter: drop-shadow(0 0 25px #ff4d5a); } }
+
+.hablando #boca { transition: transform 0.05s ease; }
+.hablando #mano-der { animation: gestoHablar 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate; }
+@keyframes gestoHablar { 0% { transform: translateY(-5px); } 100% { transform: translateY(-20px); } }
+
+/* =========================================
+   7. CONTROLES DE MICRÓFONO Y SUBTÍTULOS
+   ========================================= */
+.controles { margin-top: 20px; }
+
+.btn-voz {
+    background: linear-gradient(135deg, #ff4d5a 0%, #e63946 100%); color: white; border: none; width: 75px; height: 75px;
+    border-radius: 50%; font-size: 26px; cursor: pointer; box-shadow: 0 10px 25px rgba(230, 57, 70, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-flex; align-items: center; justify-content: center;
 }
+.btn-voz:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 15px 30px rgba(230, 57, 70, 0.5); }
+.btn-voz.activo { background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%); box-shadow: 0 0 30px rgba(14, 165, 233, 0.5); animation: pulsoBoton 1.5s infinite alternate; }
+@keyframes pulsoBoton { 0% { transform: scale(1); } 100% { transform: scale(1.08); box-shadow: 0 0 40px rgba(14, 165, 233, 0.8); } }
 
-.audio-bars .bar:nth-child(1) { animation-delay: 0.1s; }
-.audio-bars .bar:nth-child(2) { animation-delay: 0.4s; }
-.audio-bars .bar:nth-child(3) { animation-delay: 0.2s; }
-.audio-bars .bar:nth-child(4) { animation-delay: 0.5s; }
-.audio-bars .bar:nth-child(5) { animation-delay: 0.3s; }
+#estado { margin-top: 20px; color: #f1f5f9; font-weight: 600; font-size: 16px; letter-spacing: 0.5px; }
 
-@keyframes ecualizador {
-    0%, 100% { height: 5px; }
-    50% { height: 25px; }
-}
+.subtitulos-caja { margin: 20px auto 0; background: rgba(0, 0, 0, 0.7); border: 1px solid rgba(255, 255, 255, 0.15); padding: 12px 25px; border-radius: 20px; color: #f8fafc; font-size: 16px; line-height: 1.5; display: inline-flex; align-items: center; gap: 15px; max-width: 90%; min-height: 50px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+.icono-accesibilidad { font-size: 20px; color: #38bdf8; animation: pulsoIcono 2s infinite alternate; }
+#texto-subtitulo { font-weight: 500; letter-spacing: 0.3px; text-align: left; }
+@keyframes pulsoIcono { 0% { opacity: 0.6; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1.05); } }
 
-/* Ocultar paneles en pantallas pequeñas (celulares) para no tapar al robot */
+/* Responsividad para pantallas pequeñas */
 @media (max-width: 1100px) {
+    .top-bar { flex-direction: column; gap: 20px; align-items: center; padding-top: 15px; }
     .hud-panel { display: none; }
-    .promo-pill { width: 90%; flex-direction: column; text-align: center; padding: 15px; }
+    .interfaz-contenedor { margin-top: 150px; }
 }

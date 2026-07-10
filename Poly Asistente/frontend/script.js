@@ -1,9 +1,9 @@
 const btnVoz = document.getElementById('btn-hablar');
 const contenedorBot = document.getElementById('polybot-contenedor');
 const estadoText = document.getElementById('estado');
-const transcripcionText = document.getElementById('transcripcion');
 const ojosBot = document.getElementById('ojos');
 const bocaBot = document.getElementById('boca');
+const subtituloText = document.getElementById('texto-subtitulo');
 
 const synth = window.speechSynthesis;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -12,7 +12,22 @@ let vozSeleccionada = null;
 let frasesEnCola = 0;
 let estaHablando = false;
 
+// =========================================
+// GESTIÓN DEL POP-UP PARA ESCANEAR QR
+// =========================================
+function abrirModalQR(titulo, rutaImagen) {
+    document.getElementById('modal-titulo').innerText = titulo;
+    document.getElementById('modal-img').src = rutaImagen;
+    document.getElementById('qr-modal').classList.add('activo');
+}
+
+function cerrarModalQR() {
+    document.getElementById('qr-modal').classList.remove('activo');
+}
+
+// =========================================
 // 1. EFECTOS DE SONIDO (SFX TIPO JARVIS)
+// =========================================
 function reproducirBeep(frecuencia, tipo, duracion) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const oscilador = audioCtx.createOscillator();
@@ -21,7 +36,7 @@ function reproducirBeep(frecuencia, tipo, duracion) {
     oscilador.type = tipo;
     oscilador.frequency.setValueAtTime(frecuencia, audioCtx.currentTime);
     
-    ganancia.gain.setValueAtTime(0.05, audioCtx.currentTime); // Volumen bajito
+    ganancia.gain.setValueAtTime(0.05, audioCtx.currentTime);
     ganancia.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duracion);
     
     oscilador.connect(ganancia);
@@ -30,37 +45,27 @@ function reproducirBeep(frecuencia, tipo, duracion) {
     oscilador.stop(audioCtx.currentTime + duracion);
 }
 
-// 2. SEGUIMIENTO VISUAL (LOS OJOS SIGUEN TU RATÓN)
-document.addEventListener('mousemove', (e) => {
-    if (!ojosBot) return;
-    // Calculamos la posición del ratón respecto al centro de la pantalla
-    const x = (e.clientX / window.innerWidth - 0.5) * 15; // Límite de movimiento horizontal
-    const y = (e.clientY / window.innerHeight - 0.5) * 15; // Límite de movimiento vertical
-    
-    // Movemos los ojos dinámicamente
-    ojosBot.style.transform = `translate(${x}px, ${y}px)`;
-});
-
-// 3. ANIMACIÓN DE BOCA DINÁMICA (LIP-SYNC FALSO)
+// =========================================
+// 2. ANIMACIÓN DE BOCA DINÁMICA (LIP-SYNC)
+// =========================================
 function animarBocaDinamica() {
     if (!bocaBot) return;
     
     if (estaHablando) {
-        // Genera un tamaño aleatorio imitando sílabas
-        const escalaY = 0.3 + Math.random() * 1.5;
-        const escalaX = 0.9 + Math.random() * 0.3;
+        const escalaY = 0.8 + Math.random() * 0.4; // Max 1.2
+        const escalaX = 0.95 + Math.random() * 0.1; // Max 1.05
         bocaBot.style.transform = `scale(${escalaX}, ${escalaY})`;
-        bocaBot.style.transformOrigin = "200px 165px";
+        bocaBot.style.transformOrigin = "200px 150px"; 
         
-        // Cambia la forma cada 70 milisegundos
-        setTimeout(() => requestAnimationFrame(animarBocaDinamica), 70);
+        setTimeout(() => requestAnimationFrame(animarBocaDinamica), 80);
     } else {
-        // Vuelve a la sonrisa normal
         bocaBot.style.transform = `scale(1, 1)`;
     }
 }
 
-// CARGA DE VOCES
+// =========================================
+// 3. CARGA DE VOCES
+// =========================================
 function cargarMejorVoz() {
     const voces = synth.getVoices();
     vozSeleccionada = voces.find(v => v.lang.includes('es') && v.name.includes('Natural')) ||
@@ -73,7 +78,9 @@ if (synth.onvoiceschanged !== undefined) {
     synth.onvoiceschanged = cargarMejorVoz;
 }
 
-// CONFIGURACIÓN DEL MICRÓFONO
+// =========================================
+// 4. CONFIGURACIÓN DEL MICRÓFONO
+// =========================================
 if (SpeechRecognition) {
     reconocimiento = new SpeechRecognition();
     reconocimiento.lang = 'es-CO';
@@ -85,6 +92,7 @@ if (SpeechRecognition) {
         estadoText.innerText = "Poly Bot te escucha...";
         btnVoz.classList.add('activo');
         btnVoz.innerText = "⏹️";
+        if(subtituloText) subtituloText.innerText = "Escuchando...";
     };
 
     reconocimiento.onerror = () => detenerEscucha();
@@ -93,7 +101,6 @@ if (SpeechRecognition) {
     reconocimiento.onresult = async (event) => {
         reproducirBeep(400, 'sine', 0.3); // Beep de procesamiento
         const textoCapturado = event.results[0][0].transcript;
-        transcripcionText.innerText = `Dijiste: "${textoCapturado}"`;
         await procesarConCerebroStreaming(textoCapturado);
     };
 }
@@ -114,14 +121,17 @@ function detenerEscucha() {
     btnVoz.innerText = "🎙️";
     if (contenedorBot.classList.contains('escuchando')) {
         contenedorBot.className = "bot-container";
-        estadoText.innerText = "Poly Bot está esperando...";
+        estadoText.innerText = "Sistema en espera...";
     }
 }
 
-// CONEXIÓN CON EL BACKEND (STREAMING MÁS RÁPIDO)
+// =========================================
+// 5. CONEXIÓN CON EL BACKEND (STREAMING)
+// =========================================
 async function procesarConCerebroStreaming(texto) {
     contenedorBot.className = "bot-container";
-    estadoText.innerText = "Analizando...";
+    estadoText.innerText = "Procesando...";
+    if(subtituloText) subtituloText.innerText = "Procesando respuesta...";
     
     try {
         const response = await fetch('http://127.0.0.1:8000/preguntar', {
@@ -141,7 +151,6 @@ async function procesarConCerebroStreaming(texto) {
             const chunk = decoder.decode(value, { stream: true });
             bufferTexto += chunk;
 
-            // Cortamos en pausas naturales para hablar de inmediato
             if (/[.,;:!?\n]/.test(chunk)) {
                 const partes = bufferTexto.split(/([,.:!?\n])/);
                 for(let i = 0; i < partes.length - 1; i += 2) {
@@ -161,10 +170,13 @@ async function procesarConCerebroStreaming(texto) {
     } catch (error) {
         console.error(error);
         estadoText.innerText = "Error en circuitos de memoria.";
+        if(subtituloText) subtituloText.innerText = "Error al conectar con el servidor.";
     }
 }
 
-// GESTOR DE VOZ Y DINAMISMO FACIAL
+// =========================================
+// 6. GESTOR DE VOZ Y SUBTÍTULOS
+// =========================================
 function inyectarVozEnCola(textoFrase) {
     if (!vozSeleccionada) cargarMejorVoz();
 
@@ -176,22 +188,28 @@ function inyectarVozEnCola(textoFrase) {
     utterance.pitch = 1.15;
     utterance.rate = 1.05;
 
+    // FUSIÓN CORREGIDA: Iniciamos boca, estado y subtítulos al mismo tiempo
     utterance.onstart = () => {
         frasesEnCola++;
         if (!estaHablando) {
             estaHablando = true;
-            animarBocaDinamica(); // Activa el dinamismo labial
+            animarBocaDinamica(); 
         }
         contenedorBot.className = "bot-container hablando";
         estadoText.innerText = "Poly Bot hablando...";
+        
+        if(subtituloText) {
+            subtituloText.innerText = textoLimpio;
+        }
     };
 
     utterance.onend = () => {
         frasesEnCola--;
         if (frasesEnCola <= 0) {
-            estaHablando = false; // Detiene el dinamismo labial
+            estaHablando = false; 
             contenedorBot.className = "bot-container";
-            estadoText.innerText = "Poly Bot te escucha...";
+            estadoText.innerText = "Sistema en espera...";
+            if(subtituloText) subtituloText.innerText = "Los subtítulos de Poly Bot aparecerán aquí.";
         }
     };
 
@@ -199,30 +217,26 @@ function inyectarVozEnCola(textoFrase) {
 }
 
 // =========================================
-// MOTOR FÍSICO 2.5D (PARALLAX REACTIVO)
+// 7. MOTOR FÍSICO 2.5D (PARALLAX REACTIVO)
 // =========================================
 const cabeza = document.getElementById('articulacion-cabeza');
 const brazoIzq = document.getElementById('brazo-izq');
 const brazoDer = document.getElementById('brazo-der');
 const torso = document.getElementById('torso');
-const ojos = document.getElementById('ojos');
 
 document.addEventListener('mousemove', (e) => {
-    // Calculamos la posición del ratón normalizada de -1 a 1
     const x = (e.clientX / window.innerWidth) * 2 - 1;
     const y = (e.clientY / window.innerHeight) * 2 - 1;
 
-    // Aplicamos movimiento a diferentes velocidades para crear ilusión de profundidad (3D)
-    if(cabeza) cabeza.style.transform = `translate(${x * 15}px, ${y * 10}px) rotate(${x * 5}deg)`;
-    if(ojos) ojos.style.transform = `translate(${x * 25}px, ${y * 15}px)`; // Los ojos se mueven más rápido
-    if(torso) torso.style.transform = `translate(${x * 5}px, ${y * 5}px)`;
-    if(brazoIzq) brazoIzq.style.transform = `translate(${x * 20}px, ${y * 15}px) rotate(${-25 + (x * -10)}deg)`;
-    if(brazoDer) brazoDer.style.transform = `translate(${x * -10}px, ${y * 15}px) rotate(${25 + (x * 10)}deg)`;
+    if(cabeza) cabeza.style.transform = `translate(${x * 10}px, ${y * 8}px) rotate(${x * 3}deg)`;
+    if(ojosBot) ojosBot.style.transform = `translate(${x * 18}px, ${y * 10}px)`; 
+    if(torso) torso.style.transform = `translate(${x * 5}px, ${y * 3}px)`;
+    if(brazoIzq) brazoIzq.style.transform = `translate(${x * 12}px, ${y * 8}px) rotate(${-8 + (x * -5)}deg)`;
+    if(brazoDer) brazoDer.style.transform = `translate(${x * -8}px, ${y * 8}px) rotate(${8 + (x * 5)}deg)`;
 });
 
-// Suavizado de movimiento al salir de la pantalla
 document.addEventListener('mouseleave', () => {
-    const elementos = [cabeza, ojos, torso, brazoIzq, brazoDer];
+    const elementos = [cabeza, ojosBot, torso, brazoIzq, brazoDer];
     elementos.forEach(el => {
         if(el) {
             el.style.transition = 'transform 0.5s ease-out';
