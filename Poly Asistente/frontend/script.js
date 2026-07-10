@@ -198,7 +198,6 @@ function inyectarVozEnCola(textoFrase) {
     synth.speak(utterance);
 }
 
-
 // =========================================
 // MOTOR FÍSICO 2.5D (PARALLAX REACTIVO)
 // =========================================
