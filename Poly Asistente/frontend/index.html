@@ -7,6 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<body>
+<!-- 0. CARRUSEL DE FONDO (7 Imágenes con Movimiento Horizontal) -->
+    <div class="bg-carousel">
+        <div class="bg-track">
+            <!-- Las 7 imágenes principales de los programas -->
+            <div class="slide" style="background-image: url('assets/carrera1.jpg');"></div>
+            <div class="slide" style="background-image: url('assets/carrera2.jpg');"></div>
+            <div class="slide" style="background-image: url('assets/carrera3.jpg');"></div>
+            <div class="slide" style="background-image: url('assets/carrera4.jpg');"></div>
+            <div class="slide" style="background-image: url('assets/carrera5.jpg');"></div>
+            <div class="slide" style="background-image: url('assets/carrera6.jpg');"></div>
+            <div class="slide" style="background-image: url('assets/carrera7.jpg');"></div>
+            
+            <!-- CLON de la primera imagen (secreto para que el ciclo infinito no salte) -->
+            <div class="slide" style="background-image: url('assets/carrera1.jpg');"></div>
+        </div>
+        
+        <!-- Capa oscura intermedia -->
+        <div class="bg-overlay"></div>
+    </div>
+
+
     <div class="ambient-light-1"></div>
     <div class="ambient-light-2"></div>
 
@@ -67,6 +89,8 @@
             </div>
         </div>
     </div>
+
+    
     
     <div class="interfaz-contenedor">
         <div class="bot-container" id="polybot-contenedor">
@@ -146,6 +170,35 @@
                 <img id="modal-img" src="" alt="Código QR Grande">
             </div>
             <p>Abre la cámara de tu celular y apunta hacia el código.</p>
+        </div>
+    </div>
+
+    <!-- 6. BARRA INFERIOR: ¿Qué nos hace diferentes? -->
+    <div class="bottom-info-bar">
+        <div class="info-item">
+            <div class="info-icon">🧑‍🏫</div>
+            <h4>Más de 100 Docentes</h4>
+            <p>Profesionales que te enseñan con práctica real.</p>
+        </div>
+        <div class="info-item">
+            <div class="info-icon">🏢</div>
+            <h4>Instalaciones</h4>
+            <p>Equipadas con todo lo necesario para tu aprendizaje.</p>
+        </div>
+        <div class="info-item">
+            <div class="info-icon">📑</div>
+            <h4>Malla Curricular</h4>
+            <p>Desarrollo de habilidades técnicas y blandas para tu éxito.</p>
+        </div>
+        <div class="info-item">
+            <div class="info-icon">💰</div>
+            <h4>Apoyo Financiero</h4>
+            <p>Becas y créditos para que estudies sin preocupaciones.</p>
+        </div>
+        <div class="info-item">
+            <div class="info-icon">🤝</div>
+            <h4>Convenios</h4>
+            <p>Más de 1.000 empresas en todo el país para tus prácticas.</p>
         </div>
     </div>
 

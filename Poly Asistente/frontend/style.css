@@ -234,3 +234,133 @@ body {
     .hud-panel { display: none; }
     .interfaz-contenedor { margin-top: 150px; }
 }
+
+
+/* =========================================
+   10. CARRUSEL DE FONDO (MOVIMIENTO HORIZONTAL)
+   ========================================= */
+.bg-carousel {
+    position: fixed; /* Mantiene el fondo anclado detrás de todo */
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    z-index: -100;
+    overflow: hidden; /* Oculta lo que se sale de la pantalla */
+}
+
+/* Esta es la pista gigante que contiene las 8 imágenes alineadas una al lado de la otra */
+.bg-track {
+    display: flex;
+    width: 800vw; /* 8 imágenes x 100% del ancho de la pantalla */
+    height: 100%;
+    /* La animación dura 40 segundos para dar tiempo a leer, y se repite infinitamente */
+    animation: deslizarHorizontal 40s infinite ease-in-out;
+}
+
+.bg-track .slide {
+    width: 100vw; /* Cada foto ocupa exactamente el tamaño de la pantalla */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0; /* Evita que las imágenes se apachurren */
+}
+
+/* Fotogramas clave calculados matemáticamente para detenerse en cada imagen y luego deslizar */
+@keyframes deslizarHorizontal {
+    0%, 10%   { transform: translateX(0vw); }         /* Imagen 1 */
+    14%, 24%  { transform: translateX(-100vw); }      /* Imagen 2 */
+    28%, 38%  { transform: translateX(-200vw); }      /* Imagen 3 */
+    42%, 52%  { transform: translateX(-300vw); }      /* Imagen 4 */
+    57%, 67%  { transform: translateX(-400vw); }      /* Imagen 5 */
+    71%, 81%  { transform: translateX(-500vw); }      /* Imagen 6 */
+    85%, 95%  { transform: translateX(-600vw); }      /* Imagen 7 */
+    100%      { transform: translateX(-700vw); }      /* Vuelve a la Imagen 1 (Clon) */
+}
+
+/* Capa oscura para no perder la lectura de tu interfaz premium */
+.bg-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(2, 6, 23, 0.65); /* Oscurece el fondo al 65% */
+    z-index: 1; 
+}
+/* =========================================
+   11. BARRA INFERIOR DE BENEFICIOS
+   ========================================= */
+.bottom-info-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 77, 90, 0.3);
+    border-radius: 20px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    z-index: 100;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.info-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.info-icon {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #ff4d5a 0%, #9f1239 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 0 15px rgba(255, 77, 90, 0.4);
+    transition: transform 0.3s;
+}
+
+.info-item:hover .info-icon {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 0 25px rgba(255, 77, 90, 0.7);
+}
+
+.info-item h4 {
+    margin: 0 0 8px 0;
+    color: #f8fafc;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.info-item p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+/* Responsividad para no amontonar en pantallas pequeñas */
+@media (max-width: 1100px) {
+    .bottom-info-bar {
+        flex-wrap: wrap;
+        justify-content: center;
+        bottom: 10px;
+        padding: 15px;
+    }
+    .info-item {
+        min-width: 150px;
+        margin-bottom: 15px;
+    }
+}
